@@ -15,6 +15,7 @@ SRC = \
 	src/core/privesc.cpp \
 	src/fodhelper/fodhelper.cpp \
 	src/other/isadmin.cpp \
+	src/fodhelper/regedit.cpp \
 	src/runas/elevate_runas.cpp
 
 OBJ = $(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)

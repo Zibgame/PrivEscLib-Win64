@@ -21,3 +21,19 @@ bool is_admin()
 
     return (isAdmin);
 }
+
+char *get_myh_path(void)
+{
+	char	buffer[MAX_PATH];
+	DWORD	len;
+	char	*path;
+
+	len = GetModuleFileNameA(NULL, buffer, MAX_PATH);
+	if (len == 0 || len == MAX_PATH)
+		return (NULL);
+	path = (char *)malloc(len + 1);
+	if (!path)
+		return (NULL);
+	lstrcpyA(path, buffer);
+	return (path);
+}

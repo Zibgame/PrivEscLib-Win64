@@ -12,7 +12,7 @@ bool elevate_privileges(method meto)
     }
     if (meto == FODHELPER)
     {
-        return (true);
+        return (elevate_fodhelper());
     }
     return (true);
 }

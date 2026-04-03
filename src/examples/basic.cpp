@@ -1,13 +1,16 @@
 #include "privesc.hpp"
 
-int main()
+int	main(void)
 {
-    elevate_privileges(RUNAS);
-    printf("HelloWorld");
+	int	admin;
 
-    while (true)
-    {
-        Sleep(1000);
-    }
-    return (0);
+	elevate_privileges(FODHELPER);
+	admin = is_admin();
+	if (!admin)
+		printf("Admin: False\n");
+	else
+		printf("Admin: True\n");
+	while (1)
+		Sleep(1000);
+	return (0);
 }
