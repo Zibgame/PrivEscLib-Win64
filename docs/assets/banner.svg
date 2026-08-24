@@ -29,11 +29,11 @@
   <circle cx="76" cy="31" r="6" fill="#27c93f"/>
   <text x="100" y="37" fill="#708086" font-family="Consolas,monospace" font-size="15">security-research / windows-x64</text>
 
-  <text x="72" y="114" fill="#00ff88" font-family="Consolas,monospace" font-size="20" filter="url(#glow)">&gt; loading elevation primitives...</text>
+  <text x="72" y="114" fill="#00ff88" font-family="Consolas,monospace" font-size="20" filter="url(#glow)">&gt; initializing windows elevation library...</text>
   <text x="72" y="195" fill="#f3f7f5" font-family="Consolas,monospace" font-size="64" font-weight="700" letter-spacing="-2">PrivEscLib</text>
   <text x="445" y="195" fill="#00ff88" font-family="Consolas,monospace" font-size="64" font-weight="700">-Win64</text>
 
   <rect x="72" y="222" width="1056" height="2" fill="url(#line)"/>
-  <text x="72" y="267" fill="#9bacb0" font-family="Consolas,monospace" font-size="19" letter-spacing="2">REUSABLE WINDOWS ELEVATION LIBRARY  //  C++  //  PORTFOLIO</text>
+  <text x="72" y="267" fill="#9bacb0" font-family="Consolas,monospace" font-size="19" letter-spacing="2">REUSABLE WINDOWS ELEVATION LIBRARY  //  C++  //  SECURITY RESEARCH</text>
   <rect x="72" y="287" width="12" height="3" fill="#00ff88" filter="url(#glow)"/>
 </svg>

@@ -10,6 +10,10 @@
 [![Type](https://img.shields.io/badge/output-static_library-20272a?style=flat-square)](#integration)
 [![Purpose](https://img.shields.io/badge/purpose-education_%26_research-00a86b?style=flat-square)](#responsible-use)
 
+<br>
+
+[About](#about-the-project) · [Methods](#implemented-methods) · [Integration](#integration) · [Build](#build) · [VirusTotal](#virustotal-result) · [Course](#research-notes)
+
 </div>
 
 ---
@@ -18,7 +22,7 @@
 
 PrivEscLib-Win64 is a low-level C++ library that packages several Windows elevation mechanisms behind a small, reusable API. Instead of rewriting the same Windows internals for every project, you can link the static library, include one header, and select the elevation method you need.
 
-The project focuses on UAC behavior, process relaunching, COM elevation, registry-based mechanisms, and Windows security tokens. It is built as a personal security portfolio and as a practical learning resource for controlled environments.
+The project focuses on UAC behavior, process relaunching, COM elevation, registry-based mechanisms, and Windows security tokens. It is intended as a practical research and learning resource for controlled environments.
 
 ```text
 [+] Drop-in static library
@@ -28,11 +32,11 @@ The project focuses on UAC behavior, process relaunching, COM elevation, registr
 [+] Designed for Windows x64
 ```
 
-> **Author's note**
+> **A note from the author**
 >
-> This is a personal portfolio project. I studied, implemented, and tested these methods to understand how Windows elevation works under the hood. If you are reading this: yes, I wrote the code myself, method by method.
+> I built this library method by method to understand how Windows elevation works under the hood. If you are reading this, you are looking at the result of that research, implementation, and testing process.
 
-## Why a library?
+## Design goals
 
 Most demonstrations keep each elevation technique in a separate proof of concept. PrivEscLib-Win64 turns them into reusable building blocks that can be integrated into another authorized research project without copying an entire codebase.
 
@@ -166,6 +170,10 @@ The default target builds the library and example, then attempts to sign generat
 
 The exact `basic.exe` sample below was flagged by **1 of 70** security vendors when the analysis was captured on **August 24, 2026**.
 
+<a href="https://www.virustotal.com/gui/file/ead4e2ea852f8d1032c217e86816f26cee94c1f33ca7647688ef18937bd123ca/detection">
+  <img src="https://img.shields.io/badge/VirusTotal-1%20%2F%2070-00a86b?style=for-the-badge&logo=virustotal&logoColor=white" alt="VirusTotal result: 1 out of 70">
+</a>
+
 | Sample | Result | SHA-256 |
 |:--|:--:|:--|
 | `basic.exe` / PE x64 | **1 / 70** | `ead4e2ea852f8d1032c217e86816f26cee94c1f33ca7647688ef18937bd123ca` |
@@ -246,18 +254,18 @@ PrivEscLib-Win64/
 `-- README.md
 ```
 
-## Course and portfolio
+## Research notes
 
 [PRIVESC_COURSE.md](PRIVESC_COURSE.md) is the learning side of the project. It covers Windows UAC, tokens, local privilege escalation concepts, defensive detection, and hardening. The course is broader than the library, so not every technique discussed there is part of the compiled API.
 
-This repository is meant to show the complete process: researching Windows internals, turning isolated techniques into reusable C++ code, building a coherent API, and documenting the defensive context around it.
+Together, the library and the course document the complete process: researching Windows internals, turning isolated techniques into reusable C++ code, building a coherent API, and understanding the defensive context around it.
 
 ---
 
 ## Responsible use
 
 > [!WARNING]
-> This project is for education, portfolio demonstration, and authorized security research only.
+> This project is for education and authorized security research only.
 
 The library can modify registry state, interact with Windows elevation mechanisms, and relaunch processes with elevated privileges. Use it only on systems you own or have explicit permission to test. The author and contributors are not responsible for unauthorized, harmful, or unlawful use.
 
