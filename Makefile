@@ -1,7 +1,8 @@
 NAME        = privesc
 
 CXX         = g++
-CXXFLAGS    = -Wall -Wextra -Werror -Iinclude
+CXXFLAGS    = -Wall -Wextra -Werror -Iinclude -s -O2
+LDLIBS      = -lole32
 
 SRC_DIR     = src
 OBJ_DIR     = build/obj
@@ -13,8 +14,12 @@ SIGN_FLAGS  = sign /a /fd SHA256 /tr http://timestamp.digicert.com /td SHA256
 
 SRC = \
 	src/core/privesc.cpp \
+	src/cmstplua/cmstplua.cpp \
+	src/ifileoperation/ifileoperation.cpp \
+	src/cddefaults/cddefaults.cpp \
 	src/fodhelper/fodhelper.cpp \
 	src/other/isadmin.cpp \
+	src/other/encryption.cpp \
 	src/fodhelper/regedit.cpp \
 	src/runas/elevate_runas.cpp
 
@@ -32,42 +37,37 @@ all: $(LIB) examples sign
 # ----------------------------------------
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
-	@if not exist "$(OBJ_DIR)" mkdir "$(OBJ_DIR)"
-	@if not exist "$(OBJ_DIR)/core" mkdir "$(OBJ_DIR)/core"
-	@if not exist "$(OBJ_DIR)/fodhelper" mkdir "$(OBJ_DIR)/fodhelper"
-	@if not exist "$(OBJ_DIR)/runas" mkdir "$(OBJ_DIR)/runas"
-	@if not exist "$(OBJ_DIR)/other" mkdir "$(OBJ_DIR)/other"
+	@mkdir -p $(OBJ_DIR)/core $(OBJ_DIR)/cmstplua $(OBJ_DIR)/cddefaults $(OBJ_DIR)/ifileoperation $(OBJ_DIR)/fodhelper $(OBJ_DIR)/runas $(OBJ_DIR)/other
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # ----------------------------------------
 
 $(LIB): $(OBJ)
-	@if not exist "$(LIB_DIR)" mkdir "$(LIB_DIR)"
+	@mkdir -p $(LIB_DIR)
 	ar rcs $@ $^
 
 # ----------------------------------------
 
 $(BIN_DIR)/%.exe: src/examples/%.cpp $(LIB)
-	@if not exist "$(BIN_DIR)" mkdir "$(BIN_DIR)"
-	$(CXX) $(CXXFLAGS) $< -L$(LIB_DIR) -l$(NAME) -o $@
+	@mkdir -p $(BIN_DIR)
+	$(CXX) $(CXXFLAGS) $< -L$(LIB_DIR) -l$(NAME) $(LDLIBS) -o $@
 
 examples: $(BINS)
 
 # ----------------------------------------
 
 sign:
-	@echo Checking signtool...
-	@where $(SIGNTOOL) >nul 2>nul && ( \
-		echo Signing binaries... && \
-		for %%f in ($(BINS)) do @$(SIGNTOOL) $(SIGN_FLAGS) %%f \
-	) || ( \
-		echo signtool not found, skipping signing \
-	)
+	@if command -v $(SIGNTOOL) >/dev/null 2>&1; then \
+		echo Signing binaries...; \
+		for f in $(BINS); do $(SIGNTOOL) $(SIGN_FLAGS) $$f; done; \
+	else \
+		echo signtool not found, skipping signing; \
+	fi
 
 # ----------------------------------------
 
 clean:
-	@if exist build rmdir /s /q build
+	@rm -rf build
 
 fclean: clean
 

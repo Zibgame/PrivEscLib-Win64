@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   isadmin.cpp                                        :+:      :+:    :+:   */
+/*   encryption.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zcadinot <zcadinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,39 +13,41 @@
 #include "privesc.hpp"
 #include <windows.h>
 
-bool is_admin()
+static void	print_byte(unsigned char byte)
 {
-    BOOL isAdmin = FALSE;
-    PSID adminGroup = NULL;
-    SID_IDENTIFIER_AUTHORITY ntAuthority = SECURITY_NT_AUTHORITY;
+	const char	*hex;
 
-    if (!AllocateAndInitializeSid(
-        &ntAuthority,
-        2,
-        SECURITY_BUILTIN_DOMAIN_RID,
-        DOMAIN_ALIAS_RID_ADMINS,
-        0, 0, 0, 0, 0, 0,
-        &adminGroup))
-        return (false);
-
-    CheckTokenMembership(NULL, adminGroup, &isAdmin);
-    FreeSid(adminGroup);
-
-    return (isAdmin);
+	hex = "0123456789ABCDEF";
+	std::cout << "\\x";
+	std::cout << hex[(byte >> 4) & 0x0F];
+	std::cout << hex[byte & 0x0F];
 }
 
-char *get_myh_path(void)
+void	print_encrypted(const std::string &str)
 {
-	char	buffer[MAX_PATH];
-	DWORD	len;
-	char	*path;
+	size_t	i;
 
-	len = GetModuleFileNameA(NULL, buffer, MAX_PATH);
-	if (len == 0 || len == MAX_PATH)
-		return (NULL);
-	path = (char *)malloc(len + 1);
-	if (!path)
-		return (NULL);
-	lstrcpyA(path, buffer);
-	return (path);
+	i = 0;
+	while (i < str.size())
+	{
+		print_byte(static_cast<unsigned char>(str[i]));
+		i++;
+	}
+	std::cout << std::endl;
+}
+
+std::string key_xor(const std::string &str, const std::string &key)
+{
+    if (key.empty())
+		return (str);
+
+    size_t	i = 0;
+	std::string	res = "";
+
+    while (i < str.size())
+    {
+        res += str[i] ^ key[i % key.size()];
+        i++;
+    }
+    return (res);
 }

